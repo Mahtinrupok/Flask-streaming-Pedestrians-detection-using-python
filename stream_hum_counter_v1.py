@@ -6,9 +6,10 @@ Created on Thu Nov 14 18:57:44 2019
 """
 import time
 import cv2 
-from flask import Flask, render_template, Response
+import uvicorn
+from fastapi import FastAPI
 
-app = Flask(__name__)
+app = FastAPI(__name__)
 sub = cv2.createBackgroundSubtractorMOG2()  # create background subtractor
 
 @app.route('/')
@@ -71,6 +72,9 @@ def video_feed():
     """Video streaming route. Put this in the src attribute of an img tag."""
     return Response(gen(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
+
+if __name__ == '__main__':
+    uvicorn.run(app, host='127.0.0.1', port=8000)
 
     
 
